@@ -9,7 +9,7 @@ using Ackbar.Models;
 
 namespace Ackbar.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/login")]
     public class UserController : Controller
     {
         private readonly UserContext _context;
@@ -24,5 +24,8 @@ namespace Ackbar.Controllers
                 _context.SaveChanges();
             }
         }
+
+        //[HttpPost]
+        //public IActionResult Login([FromBody] )
     }
 }
