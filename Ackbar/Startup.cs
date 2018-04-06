@@ -38,7 +38,10 @@ namespace Ackbar
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
+
+            var connection = Configuration.GetConnectionString("AckbarDatabase");
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
+
             services.AddMvc();
         }
 
