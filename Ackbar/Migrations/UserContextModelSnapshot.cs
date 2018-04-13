@@ -10,7 +10,7 @@ using System;
 
 namespace Ackbar.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(GameGuideContext))]
     partial class UserContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

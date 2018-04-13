@@ -40,7 +40,7 @@ namespace Ackbar
             });
 
             var connection = Configuration.GetConnectionString("AckbarDatabase");
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<GameGuideContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc();
         }

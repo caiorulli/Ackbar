@@ -10,7 +10,7 @@ using System;
 
 namespace Ackbar.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(GameGuideContext))]
     [Migration("20180329040710_InitialCreate")]
     partial class InitialCreate
     {
