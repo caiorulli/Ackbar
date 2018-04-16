@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interactors\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

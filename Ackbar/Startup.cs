@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Text;
-using Ackbar.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

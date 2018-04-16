@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Ackbar.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +25,12 @@ namespace Ackbar.Controllers
                 return Unauthorized();
             }
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            return Ok(_context.Users.First(u => u.Id == userId));
+
+
+            User realUser = _context.Users.First(u => u.Id == userId);
+            var game = _context.Games.First(g => g.Id == Id);
+            realUser.Player.LikedGames.Append(game);
+            return Ok();
         }
     }
 }
