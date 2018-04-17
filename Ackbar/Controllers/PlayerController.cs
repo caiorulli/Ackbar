@@ -16,7 +16,7 @@ namespace Ackbar.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet("player/likeGame"), Authorize]
         public IActionResult LikeGame(long Id)
         {
             var currentUser = HttpContext.User;
@@ -25,8 +25,7 @@ namespace Ackbar.Controllers
                 return Unauthorized();
             }
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-
+            
             User realUser = _context.Users.First(u => u.Id == userId);
             var game = _context.Games.First(g => g.Id == Id);
             realUser.Player.LikedGames.Append(game);

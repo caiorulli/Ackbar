@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using Ackbar.Interactors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,7 +42,8 @@ namespace Ackbar
             var connection = Configuration.GetConnectionString("AckbarDatabase");
             services.AddDbContext<GameGuideContext>(options => options.UseSqlServer(connection));
 
-            services.AddMvc();
+            services.AddMvc();  
+            services.AddTransient<ILoginInteractor, LoginInteractor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

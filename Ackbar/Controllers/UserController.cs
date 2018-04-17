@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Ackbar.Models;
 using Ackbar.Interactors;
-using System;
 
 namespace Ackbar.Controllers
 {
@@ -11,9 +10,9 @@ namespace Ackbar.Controllers
     public class UserController : Controller
     {
         private readonly GameGuideContext _context;
-        private readonly Login _login;
+        private readonly ILoginInteractor _login;
 
-        public UserController(GameGuideContext context, Login login)
+        public UserController(GameGuideContext context, ILoginInteractor login)
         {
             _context = context;
             _login = login;
@@ -26,7 +25,7 @@ namespace Ackbar.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/login")]
+        [HttpPost("/user/login")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Login([FromBody] LoginRequest request)
         {
@@ -40,7 +39,7 @@ namespace Ackbar.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/signup")]
+        [HttpPost("/user/signup")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {

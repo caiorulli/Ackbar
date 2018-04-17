@@ -9,12 +9,12 @@ using System.Text;
 
 namespace Ackbar.Interactors
 {
-    public class Login
+    public class LoginInteractor : ILoginInteractor
     {
         private readonly GameGuideContext _context;
         private readonly IConfiguration _config;
 
-        public Login(GameGuideContext context, IConfiguration config)
+        public LoginInteractor(GameGuideContext context, IConfiguration config)
         {
             _context = context;
             _config = config;
