@@ -11,9 +11,10 @@ using System;
 namespace Ackbar.Migrations
 {
     [DbContext(typeof(GameGuideContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20180418022231_ChangeUsernameToEmail")]
+    partial class ChangeUsernameToEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ackbar.Controllers
 {
-    [Route("player")]
+    [Authorize]
     public class PlayerController : Controller
     {
         private readonly GameGuideContext _context;
@@ -15,8 +15,7 @@ namespace Ackbar.Controllers
         {
             _context = context;
         }
-
-        [HttpGet("player/likeGame"), Authorize]
+        
         public IActionResult LikeGame(long Id)
         {
             var currentUser = HttpContext.User;

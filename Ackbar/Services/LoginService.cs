@@ -7,34 +7,34 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace Ackbar.Interactors
+namespace Ackbar.Services
 {
-    public class LoginInteractor : ILoginInteractor
+    public class LoginService : ILoginService
     {
         private readonly GameGuideContext _context;
         private readonly IConfiguration _config;
 
-        public LoginInteractor(GameGuideContext context, IConfiguration config)
+        public LoginService(GameGuideContext context, IConfiguration config)
         {
             _context = context;
             _config = config;
         }
 
-        public User Signup(string username, string password)
+        public User Signup(string email, string password)
         {
-            if (_context.Users.Any(u => u.Username == username))
+            if (_context.Users.Any(u => u.Email == email))
             {
                 return null;
             }
-            var user = new User { Username = username, Password = password, Player = new Player() };
+            var user = new User { Email = email, Password = password, Player = new Player() };
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public User Authenticate(string username, string password)
+        public User Authenticate(string email, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            return _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
         }
 
         public string GenerateJwt(User user)

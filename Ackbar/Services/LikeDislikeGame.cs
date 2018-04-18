@@ -1,7 +1,7 @@
 ﻿using Ackbar.Models;
 using System.Linq;
 
-namespace Ackbar.Interactors
+namespace Ackbar.Services
 {
     public class LikeDislikeGame
     {
