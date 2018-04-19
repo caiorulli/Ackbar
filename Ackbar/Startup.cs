@@ -54,14 +54,15 @@ namespace Ackbar
                 app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();
+
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
             // Enable the Swagger UI middleware and the Swagger generator
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
             {
-                settings.GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
+                settings.GeneratorSettings.DefaultUrlTemplate = "{controller}/{action}/{id?}";
             });
-            app.UseMvc();
         }
     }
 }
