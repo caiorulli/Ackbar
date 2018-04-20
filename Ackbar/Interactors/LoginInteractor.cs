@@ -7,14 +7,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace Ackbar.Services
+namespace Ackbar.Interactors
 {
-    public class LoginService : ILoginService
+    public class LoginInteractor : ILoginInteractor
     {
         private readonly GameGuideContext _context;
         private readonly IConfiguration _config;
 
-        public LoginService(GameGuideContext context, IConfiguration config)
+        public LoginInteractor(GameGuideContext context, IConfiguration config)
         {
             _context = context;
             _config = config;

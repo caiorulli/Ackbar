@@ -1,13 +1,13 @@
 ﻿using Ackbar.Models;
 using System.Linq;
 
-namespace Ackbar.Services
+namespace Ackbar.Interactors
 {
-    public class LikeDislikeGame
+    public class LikeDislikeGameInteractor
     {
         private readonly GameGuideContext _context;
 
-        public LikeDislikeGame(GameGuideContext context)
+        public LikeDislikeGameInteractor(GameGuideContext context)
         {
             _context = context;
         }

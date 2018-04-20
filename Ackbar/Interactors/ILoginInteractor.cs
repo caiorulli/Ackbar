@@ -1,8 +1,8 @@
 ﻿using Ackbar.Models;
 
-namespace Ackbar.Services
+namespace Ackbar.Interactors
 {
-    public interface ILoginService
+    public interface ILoginInteractor
     {
         User Authenticate(string email, string password);
         string GenerateJwt(User user);

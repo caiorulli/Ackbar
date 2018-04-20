@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Ackbar.Models;
-using Ackbar.Services;
+using Ackbar.Interactors;
 
 namespace Ackbar.Controllers
 {
     public class UserController : Controller
     {
         private readonly GameGuideContext _context;
-        private readonly ILoginService _login;
+        private readonly ILoginInteractor _login;
 
-        public UserController(GameGuideContext context, ILoginService login)
+        public UserController(GameGuideContext context, ILoginInteractor login)
         {
             _context = context;
             _login = login;
