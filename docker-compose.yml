@@ -6,3 +6,20 @@ services:
     build:
       context: .
       dockerfile: Ackbar/Dockerfile
+    networks:
+      - backend
+
+  sqlserver:
+    image: microsoft/mssql-server-linux:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=weWillFindTheReasonFor!42
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
