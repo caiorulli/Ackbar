@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ackbar.Controllers
 {
     [Authorize]
+    [Produces("application/json")]
+    [Route("api/Player")]
     public class PlayerController : Controller
     {
         private readonly GameGuideContext _context;

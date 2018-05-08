@@ -6,6 +6,8 @@ using Ackbar.Interactors;
 
 namespace Ackbar.Controllers
 {
+    [Produces("application/json")]
+    [Route("api/User")]
     public class UserController : Controller
     {
         private readonly GameGuideContext _context;
@@ -24,6 +26,7 @@ namespace Ackbar.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("Login")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Login([FromBody] LoginRequest request)
         {
@@ -37,6 +40,7 @@ namespace Ackbar.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("Signup")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {
