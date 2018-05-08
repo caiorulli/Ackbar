@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: Ackbar/Dockerfile
+    ports:
+      - "8080:80"
     networks:
       - backend
 

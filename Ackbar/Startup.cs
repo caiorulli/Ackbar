@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using NJsonSchema;
 using NSwag.AspNetCore;
 
 namespace Ackbar
@@ -25,6 +24,11 @@ namespace Ackbar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder => { builder.WithOrigins(Configuration["Miek:URL"]); });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -49,6 +53,7 @@ namespace Ackbar
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("AllowSpecificOrigins");
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
