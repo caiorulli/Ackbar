@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using Ackbar.Interactors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,9 +19,11 @@ namespace Ackbar
             Configuration = configuration;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // ReSharper disable once UnusedMember.Global
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -59,6 +60,7 @@ namespace Ackbar
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");

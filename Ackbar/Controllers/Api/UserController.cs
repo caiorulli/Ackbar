@@ -1,32 +1,29 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Ackbar.Models;
 using Ackbar.Interactors;
+using Ackbar.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Ackbar.Controllers
+namespace Ackbar.Controllers.Api
 {
     [Produces("application/json")]
     [Route("api/User")]
     public class UserController : Controller
     {
-        private readonly GameGuideContext _context;
         private readonly ILoginInteractor _login;
 
         public UserController(GameGuideContext context, ILoginInteractor login)
         {
-            _context = context;
+            var databaseContext = context;
             _login = login;
 
-            if (_context.Users.Count() == 0)
-            {
-                _context.Users.Add(new User { Email = "Alex", Password = "Alvim" });
-                _context.SaveChanges();
-            }
+            if (databaseContext.Users.Any()) return;
+            databaseContext.Users.Add(new User { Email = "Alex", Password = "Alvim" });
+            databaseContext.SaveChanges();
         }
 
         [AllowAnonymous]
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Login([FromBody] LoginRequest request)
         {
@@ -40,7 +37,7 @@ namespace Ackbar.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Signup")]
+        [HttpPost("Signup")]
         [ProducesResponseType(typeof(TokenResponse), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {
@@ -53,14 +50,26 @@ namespace Ackbar.Controllers
 
     public class LoginRequest
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public LoginRequest(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
+
+        public string Email { get; }
+        public string Password { get; }
     }
 
     public class SignupRequest
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public SignupRequest(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
+
+        public string Email { get; }
+        public string Password { get; }
     }
 
     public class TokenResponse
