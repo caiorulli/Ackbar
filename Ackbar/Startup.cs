@@ -31,7 +31,7 @@ namespace Ackbar
                     builder =>
                     {
                         builder.WithOrigins("http://miek.dev.gameguide.com.br",
-                                "http://gameguide-miek.firebaseapp.com")
+                                "https://gameguide-miek.firebaseapp.com")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
