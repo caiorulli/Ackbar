@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.ObjectModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -26,7 +27,15 @@ namespace Ackbar.Interactors
             {
                 return null;
             }
-            var user = new User { Email = email, Password = password, Player = new Player() };
+            var user = new User
+            {
+                Email = email,
+                Password = password,
+                Player = new Player
+                {
+                    Likes = new Collection<Like>()
+                }
+            };
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;

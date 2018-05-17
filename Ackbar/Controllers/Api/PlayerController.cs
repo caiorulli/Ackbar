@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using Ackbar.Models;
 using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,17 +28,20 @@ namespace Ackbar.Controllers.Api
             }
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             
-            var realUser = _context.Users.First(u => u.Id == userId);
-            
+            var player = _context.Players.First(p => p.User.Id == userId);
             var game = _context.Games.First(g => g.Id.Equals(id));
-            var player = realUser.Player;
 
+            if (_context.Likes.Any(l => l.Game.Equals(game) && l.Player.Equals(player)))
+            {
+                return BadRequest();                
+            }
+            
             var like = new Like
             {
                 Game = game,
                 Player = player
             };
-            realUser.Player.LikedGames.Append(like);
+            _context.Likes.Add(like);
             _context.SaveChanges();
             return Ok();
         }

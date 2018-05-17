@@ -25,7 +25,7 @@ namespace Ackbar.Controllers.Api
                 Password = "Alvim",
                 Player = new Player
                 {
-                    LikedGames = new Collection<Like>()
+                    Likes = new Collection<Like>()
                 }
             });
             databaseContext.SaveChanges();
