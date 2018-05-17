@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Ackbar;
-using Ackbar.Models;
+using Ackbar.Models.Entities;
 
 namespace Ackbar.Controllers.Admin
 {
@@ -59,13 +55,10 @@ namespace Ackbar.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Game game)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(game);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(game);
+            if (!ModelState.IsValid) return View(game);
+            _context.Add(game);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Games/Edit/5
@@ -97,27 +90,24 @@ namespace Ackbar.Controllers.Admin
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(game);
+            try
             {
-                try
-                {
-                    _context.Update(game);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GameExists(game.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(game);
+                await _context.SaveChangesAsync();
             }
-            return View(game);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GameExists(game.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Games/Delete/5

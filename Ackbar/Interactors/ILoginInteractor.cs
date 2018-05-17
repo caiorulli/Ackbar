@@ -1,4 +1,5 @@
 ﻿using Ackbar.Models;
+using Ackbar.Models.Entities;
 
 namespace Ackbar.Interactors
 {

@@ -1,5 +1,6 @@
 ﻿using Ackbar.Models;
 using System.Linq;
+using Ackbar.Models.Entities;
 
 namespace Ackbar.Interactors
 {

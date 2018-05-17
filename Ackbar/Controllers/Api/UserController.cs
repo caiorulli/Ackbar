@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Ackbar.Interactors;
-using Ackbar.Models;
+using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,15 @@ namespace Ackbar.Controllers.Api
             _login = login;
 
             if (databaseContext.Users.Any()) return;
-            databaseContext.Users.Add(new User { Email = "Alex", Password = "Alvim" });
+            databaseContext.Users.Add(new User
+            {
+                Email = "Alex",
+                Password = "Alvim",
+                Player = new Player
+                {
+                    LikedGames = new Collection<Like>()
+                }
+            });
             databaseContext.SaveChanges();
         }
 

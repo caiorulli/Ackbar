@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Security.Claims;
 using Ackbar.Models;
+using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ackbar.Controllers
+namespace Ackbar.Controllers.Api
 {
     [Authorize]
     [Produces("application/json")]
@@ -18,7 +21,8 @@ namespace Ackbar.Controllers
             _context = context;
         }
         
-        public IActionResult LikeGame(long Id)
+        [HttpPost("LikeGame/{id}")]
+        public IActionResult LikeGame(long id)
         {
             var currentUser = HttpContext.User;
             if (!currentUser.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
@@ -27,9 +31,18 @@ namespace Ackbar.Controllers
             }
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             
-            User realUser = _context.Users.First(u => u.Id == userId);
-            var game = _context.Games.First(g => g.Id == Id);
-            realUser.Player.LikedGames.Append(game);
+            var realUser = _context.Users.First(u => u.Id == userId);
+            
+            var game = _context.Games.First(g => g.Id.Equals(id));
+            var player = realUser.Player;
+
+            var like = new Like
+            {
+                Game = game,
+                Player = player
+            };
+            realUser.Player.LikedGames.Append(like);
+            _context.SaveChanges();
             return Ok();
         }
     }
