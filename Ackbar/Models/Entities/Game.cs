@@ -10,6 +10,8 @@ namespace Ackbar.Models.Entities
         public string Age { get; set; }
         public string NumberOfPlayers { get; set; }
         public string Duration { get; set; }
+        public string Description { get; set; }
+        public string CoverImage { get; set; }
         
         public ICollection<Like> Likes { get; set; }
         public Profile Profile { get; set; }

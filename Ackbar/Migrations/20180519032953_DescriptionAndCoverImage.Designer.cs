@@ -11,9 +11,10 @@ using System;
 namespace Ackbar.Migrations
 {
     [DbContext(typeof(GameGuideContext))]
-    partial class GameGuideContextModelSnapshot : ModelSnapshot
+    [Migration("20180519032953_DescriptionAndCoverImage")]
+    partial class DescriptionAndCoverImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,12 +126,6 @@ namespace Ackbar.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Gradation");
-
-                    b.Property<int>("Participation");
-
-                    b.Property<int>("Result");
-
                     b.HasKey("Id");
 
                     b.ToTable("Agency");
@@ -140,14 +135,6 @@ namespace Ackbar.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Quality");
-
-                    b.Property<int>("Theme");
-
-                    b.Property<int>("Transmediality");
-
-                    b.Property<int>("VisualIdentity");
 
                     b.HasKey("Id");
 
@@ -159,26 +146,6 @@ namespace Ackbar.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CognitiveAbility");
-
-                    b.Property<int>("Competitivity");
-
-                    b.Property<int>("Economy");
-
-                    b.Property<int>("Feedback");
-
-                    b.Property<int>("Interaction");
-
-                    b.Property<int>("MentalAbility");
-
-                    b.Property<int>("PhysicalAbility");
-
-                    b.Property<int>("SocialAbility");
-
-                    b.Property<int>("Structure");
-
-                    b.Property<int>("Symmetry");
-
                     b.HasKey("Id");
 
                     b.ToTable("Conflict");
@@ -189,14 +156,6 @@ namespace Ackbar.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Duration");
-
-                    b.Property<int>("Monetary");
-
-                    b.Property<int>("Setup");
-
-                    b.Property<int>("Space");
-
                     b.HasKey("Id");
 
                     b.ToTable("Investment");
@@ -206,24 +165,6 @@ namespace Ackbar.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Actions");
-
-                    b.Property<int>("Components");
-
-                    b.Property<int>("Conditions");
-
-                    b.Property<int>("IdealNumberOfPlayers");
-
-                    b.Property<int>("Randomness");
-
-                    b.Property<int>("RealNumberOfPlayers");
-
-                    b.Property<int>("Resources");
-
-                    b.Property<int>("Variance");
-
-                    b.Property<int>("VictoryConditions");
 
                     b.HasKey("Id");
 

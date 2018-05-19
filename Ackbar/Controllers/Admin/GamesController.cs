@@ -53,7 +53,7 @@ namespace Ackbar.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Year,Age,NumberOfPlayers,Duration")] Game game)
+        public async Task<IActionResult> Create([Bind("Id,Name,Year,Age,NumberOfPlayers,Duration,Description,CoverImage")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Ackbar.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Year,Age,NumberOfPlayers,Duration")] Game game)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Year,Age,NumberOfPlayers,Duration,Description,CoverImage")] Game game)
         {
             if (id != game.Id)
             {
