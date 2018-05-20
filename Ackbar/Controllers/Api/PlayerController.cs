@@ -58,7 +58,7 @@ namespace Ackbar.Controllers.Api
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var recommendedGames = _context.Games
-                .FromSql("SELECT * from Games " +
+                .FromSql("SELECT TOP (5) * from Games " +
                          " WHERE Id NOT IN (SELECT g.Id FROM Games g " +
                          "INNER JOIN Likes l ON g.Id = l.GameId " +
                          "INNER JOIN Players p ON l.PlayerId = p.Id " +
