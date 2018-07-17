@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Ackbar.Api.Dto;
 using Ackbar.Interactors;
 using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ackbar.Controllers.Api
+namespace Ackbar.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/User")]
@@ -33,7 +34,7 @@ namespace Ackbar.Controllers.Api
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(PlayerDto), 200)]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             var user = _login.Authenticate(request.Email, request.Password);
@@ -42,47 +43,18 @@ namespace Ackbar.Controllers.Api
                 return Unauthorized();
             }
             var tokenString = _login.GenerateJwt(user);
-            return Ok(new TokenResponse { Token = tokenString });
+            return Ok(new PlayerDto { Token = tokenString });
         }
 
         [AllowAnonymous]
         [HttpPost("Signup")]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(PlayerDto), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {
             var user = _login.Signup(request.Email, request.Password);
             if (user == null) return BadRequest();
             var tokenString = _login.GenerateJwt(user);
-            return Ok(new TokenResponse { Token = tokenString });
+            return Ok(new PlayerDto { Token = tokenString });
         }
-    }
-
-    public class LoginRequest
-    {
-        public LoginRequest(string email, string password)
-        {
-            Email = email;
-            Password = password;
-        }
-
-        public string Email { get; }
-        public string Password { get; }
-    }
-
-    public class SignupRequest
-    {
-        public SignupRequest(string email, string password)
-        {
-            Email = email;
-            Password = password;
-        }
-
-        public string Email { get; }
-        public string Password { get; }
-    }
-
-    public class TokenResponse
-    {
-        public string Token { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Controllers.Admin
+namespace Ackbar.Admin
 {
     public class MigrationController : Controller
     {
