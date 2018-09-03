@@ -17,17 +17,3 @@ Written in C# with ASP.NET Core.
 ```bash
 docker-compose up
 ```
-
-## Todo
-
-### High priority
-- Setup deploy
-- Finish integration with Miek
-- Handle admin scaffolding
-- Placeholder algorithm
-
-### Low priority
-- Enforce auth in admin
-- Setup test project
-- Refactor Ackbar into several projects
-- Maybe CI pipeline, then? Who knows when I'll get down here
