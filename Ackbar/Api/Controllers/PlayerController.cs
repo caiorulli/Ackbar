@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Controllers.Api
+namespace Ackbar.Api.Controllers
 {
     [Authorize]
     [Produces("application/json")]

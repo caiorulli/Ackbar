@@ -4,25 +4,25 @@ using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Controllers.Admin
+namespace Ackbar.Admin
 {
-    public class UsersController : Controller
+    public class GamesController : Controller
     {
         private readonly GameGuideContext _context;
 
-        public UsersController(GameGuideContext context)
+        public GamesController(GameGuideContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Games
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Games.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Games/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(long? id)
         {
@@ -31,40 +31,40 @@ namespace Ackbar.Controllers.Admin
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var game = await _context.Games
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (game == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(game);
         }
 
-        // GET: Users/Create
+        // GET: Games/Create
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Games/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Password")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Year,Age,NumberOfPlayers,Duration,Description,CoverImage")] Game game)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(game);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(game);
         }
 
-        // GET: Users/Edit/5
+        // GET: Games/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(long? id)
         {
@@ -73,22 +73,22 @@ namespace Ackbar.Controllers.Admin
                 return NotFound();
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var game = await _context.Games.SingleOrDefaultAsync(m => m.Id == id);
+            if (game == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(game);
         }
 
-        // POST: Users/Edit/5
+        // POST: Games/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Email,Password")] User user)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Year,Age,NumberOfPlayers,Duration,Description,CoverImage")] Game game)
         {
-            if (id != user.Id)
+            if (id != game.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Ackbar.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!GameExists(game.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Ackbar.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(game);
         }
 
-        // GET: Users/Delete/5
+        // GET: Games/Delete/5
         [HttpGet]
         public async Task<IActionResult> Delete(long? id)
         {
@@ -125,30 +125,30 @@ namespace Ackbar.Controllers.Admin
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var game = await _context.Games
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (game == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(game);
         }
 
-        // POST: Users/Delete/5
+        // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Users.Remove(user);
+            var game = await _context.Games.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Games.Remove(game);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(long id)
+        private bool GameExists(long id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Games.Any(e => e.Id == id);
         }
     }
 }

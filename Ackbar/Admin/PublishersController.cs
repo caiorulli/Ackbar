@@ -4,7 +4,7 @@ using Ackbar.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Controllers.Admin
+namespace Ackbar.Admin
 {
     public class PublishersController : Controller
     {
