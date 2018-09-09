@@ -1,4 +1,4 @@
-﻿namespace Ackbar.Models.Entities
+﻿namespace Ackbar.Models
 {
     public class User
     {
