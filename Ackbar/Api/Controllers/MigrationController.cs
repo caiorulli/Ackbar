@@ -2,28 +2,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Admin
+namespace Ackbar.Api.Controllers
 {
     public class MigrationController : Controller
     {
-        private GameGuideContext db;
+        private readonly GameGuideContext _db;
 
         public MigrationController(GameGuideContext dbContext)
         {
-            this.db = dbContext;
+            _db = dbContext;
         }
 
         public IActionResult Index()
         {
             try
             {
-                db.Database.Migrate();
+                _db.Database.Migrate();
+                return Ok();
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                return BadRequest(ex);   
             }
-            return View();
         }
     }
 }

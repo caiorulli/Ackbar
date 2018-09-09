@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Ackbar.Models.Entities;
+using Ackbar.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

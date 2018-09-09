@@ -1,6 +1,6 @@
-﻿using Ackbar.Models.Entities.ProfileTypes;
+﻿using Ackbar.Models.ProfileTypes;
 
-namespace Ackbar.Models.Entities
+namespace Ackbar.Models
 {
     public class Profile
     {

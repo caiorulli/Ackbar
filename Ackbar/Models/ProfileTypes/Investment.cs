@@ -1,4 +1,4 @@
-﻿namespace Ackbar.Models.Entities.ProfileTypes
+﻿namespace Ackbar.Models.ProfileTypes
 {
     public class Investment
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Ackbar.Api.Dto;
 
-namespace Ackbar.Models.Entities
+namespace Ackbar.Models
 {
     public class Game
     {

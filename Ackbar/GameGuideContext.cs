@@ -1,4 +1,4 @@
-﻿using Ackbar.Models.Entities;
+﻿using Ackbar.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ackbar
