@@ -26,5 +26,10 @@
     <_ContentIncludedByDefault Remove="Views\Games\Details.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Games\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Games\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publishers\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publishers\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publishers\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publishers\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publishers\Index.cshtml" />
   </ItemGroup>
 </Project>
