@@ -1,6 +1,6 @@
 ﻿namespace Ackbar.Api.Dto
 {
-    public class PlayerDto
+    public class UserDto
     {
         public string Token { get; set; }
     }

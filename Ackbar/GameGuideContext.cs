@@ -11,9 +11,10 @@ namespace Ackbar
 
         public DbSet<User> Users { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Game> Games { get; set; }
-        public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<View> Views { get; set; }
         public DbSet<Profile> Profiles { get; set; }
     }
 }

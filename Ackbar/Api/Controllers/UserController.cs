@@ -24,24 +24,11 @@ namespace Ackbar.Api.Controllers
         {
             _context = context;
             _config = config;
-            
-
-            if (_context.Users.Any()) return;
-            _context.Users.Add(new User
-            {
-                Email = "Alex",
-                Password = "Alvim",
-                Player = new Player
-                {
-                    Likes = new Collection<Like>()
-                }
-            });
-            _context.SaveChanges();
         }
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        [ProducesResponseType(typeof(PlayerDto), 200)]
+        [ProducesResponseType(typeof(UserDto), 200)]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             var user = Authenticate(request.Email, request.Password);
@@ -50,21 +37,21 @@ namespace Ackbar.Api.Controllers
                 return Unauthorized();
             }
             var tokenString = GenerateJwt(user);
-            return Ok(new PlayerDto { Token = tokenString });
+            return Ok(new UserDto { Token = tokenString });
         }
 
         [AllowAnonymous]
         [HttpPost("Signup")]
-        [ProducesResponseType(typeof(PlayerDto), 200)]
+        [ProducesResponseType(typeof(UserDto), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {
-            var user = UserSignup(request.Email, request.Password);
+            var user = UserSignup(request.Email, request.Password, request.ReportUrl);
             if (user == null) return BadRequest();
             var tokenString = GenerateJwt(user);
-            return Ok(new PlayerDto { Token = tokenString });
+            return Ok(new UserDto { Token = tokenString });
         }
-        
-        public User UserSignup(string email, string password)
+
+        private User UserSignup(string email, string password, string reportUrl)
         {
             if (_context.Users.Any(u => u.Email == email))
             {
@@ -79,17 +66,25 @@ namespace Ackbar.Api.Controllers
                     Likes = new Collection<Like>()
                 }
             };
+            if (reportUrl != null)
+            {
+                user.Customer = new Customer
+                {
+                    ReportUrl = reportUrl,
+                    User = user
+                };
+            }
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public User Authenticate(string email, string password)
+        private User Authenticate(string email, string password)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
         }
 
-        public string GenerateJwt(User user)
+        private string GenerateJwt(User user)
         {
             var claims = new[]
             {

@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using System.Security.Claims;
+using Ackbar.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ackbar.Models
+namespace Ackbar.Api.Controllers
 {
     [Authorize]
     [Produces("application/json")]
