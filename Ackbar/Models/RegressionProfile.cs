@@ -1,4 +1,4 @@
-﻿using Ackbar.Models.ProfileTypes;
+﻿using Ackbar.Models.RegressionProfileTypes;
 
 namespace Ackbar.Models
 {

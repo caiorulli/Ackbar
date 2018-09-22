@@ -1,6 +1,6 @@
-﻿namespace Ackbar.Models.ProfileTypes
+﻿namespace Ackbar.Models.RegressionProfileTypes
 {
-    public class RegressionInvestment
+    public class RegressionRules
     {
         public long Id { get; set; }
         public float Space { get; set; }

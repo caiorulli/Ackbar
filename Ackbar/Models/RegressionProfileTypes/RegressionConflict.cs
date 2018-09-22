@@ -1,4 +1,4 @@
-﻿namespace Ackbar.Models.ProfileTypes
+﻿namespace Ackbar.Models.RegressionProfileTypes
 {
     public class RegressionConflict
     {

@@ -11,9 +11,10 @@ using System;
 namespace Ackbar.Migrations
 {
     [DbContext(typeof(GameGuideContext))]
-    partial class GameGuideContextModelSnapshot : ModelSnapshot
+    [Migration("20180922195838_PostReportChanges")]
+    partial class PostReportChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
