@@ -96,6 +96,9 @@ namespace Ackbar.Api.Controllers
                     Duration = gameDto.Duration,
                     CoverImage = gameDto.ImageUrl,
                     NumberOfPlayers = gameDto.NumberOfPlayers,
+                    Genre = gameDto.Genre,
+                    Publisher = gameDto.Publisher,
+                    SellingPrice = gameDto.SellingPrice,
                     Profile = newProfile
                 };
                 _context.Games.Add(newGame);
