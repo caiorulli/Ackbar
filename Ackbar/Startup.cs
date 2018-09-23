@@ -54,6 +54,7 @@ namespace Ackbar
             });
 
             services.AddTransient<IJwtUtils, JwtUtils>();
+            services.AddTransient<IRegressionService, RegressionService>();
             
             var connection = Configuration.GetConnectionString("GameguideDatabase");
             services.AddDbContext<GameGuideContext>(options => options.UseSqlServer(connection));
