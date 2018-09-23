@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Ackbar.Api.Dto;
 using Ackbar.Models;
@@ -72,7 +73,8 @@ namespace Ackbar.Api.Controllers
             var view = new View
             {
                 Game = game,
-                Player = player
+                Player = player,
+                DateTime = DateTime.Now
             };
             _context.Views.Add(view);
             _context.SaveChanges();
@@ -99,7 +101,8 @@ namespace Ackbar.Api.Controllers
             var like = new Like
             {
                 Game = game,
-                Player = player
+                Player = player,
+                DateTime = DateTime.Now
             };
             _context.Likes.Add(like);
             _context.SaveChanges();
@@ -126,7 +129,8 @@ namespace Ackbar.Api.Controllers
             var ownership = new Ownership
             {
                 Game = game,
-                Player = player
+                Player = player,
+                DateTime = DateTime.Now
             };
             _context.Ownerships.Add(ownership);
             _context.SaveChanges();
