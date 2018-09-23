@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using Ackbar.Api;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,8 @@ namespace Ackbar
                 };
             });
 
+            services.AddTransient<IJwtUtils, JwtUtils>();
+            
             var connection = Configuration.GetConnectionString("GameguideDatabase");
             services.AddDbContext<GameGuideContext>(options => options.UseSqlServer(connection));
 
