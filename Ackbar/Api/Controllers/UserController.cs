@@ -18,12 +18,12 @@ namespace Ackbar.Api.Controllers
     public class UserController : Controller
     {
         private readonly GameGuideContext _context;
-        private readonly IConfiguration _config;
+        private readonly IJwtUtils _jwt;
 
-        public UserController(GameGuideContext context, IConfiguration config)
+        public UserController(GameGuideContext context, IJwtUtils jwt)
         {
             _context = context;
-            _config = config;
+            _jwt = jwt;
         }
 
         [AllowAnonymous]
@@ -36,7 +36,7 @@ namespace Ackbar.Api.Controllers
             {
                 return Unauthorized();
             }
-            var tokenString = GenerateJwt(user);
+            var tokenString = _jwt.GenerateJwt(user.Id);
             return Ok(new UserDto { Token = tokenString });
         }
 
@@ -47,7 +47,7 @@ namespace Ackbar.Api.Controllers
         {
             var user = UserSignup(request.Email, request.Password, request.ReportUrl);
             if (user == null) return BadRequest();
-            var tokenString = GenerateJwt(user);
+            var tokenString = _jwt.GenerateJwt(user.Id);
             return Ok(new UserDto { Token = tokenString });
         }
 
@@ -82,25 +82,6 @@ namespace Ackbar.Api.Controllers
         private User Authenticate(string email, string password)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-        }
-
-        private string GenerateJwt(User user)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                claims,
-                expires: DateTime.Now.AddYears(1),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
