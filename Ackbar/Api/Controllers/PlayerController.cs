@@ -199,6 +199,7 @@ namespace Ackbar.Api.Controllers
                     .ToList();
 
                 _regressionService.CalculateRegression(player, randomNotLikedGames);
+                _context.SaveChanges();
             }
             catch (Exception e)
             {
