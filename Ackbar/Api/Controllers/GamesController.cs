@@ -4,6 +4,7 @@ using Ackbar.Models;
 using Ackbar.Models.ProfileTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ackbar.Api.Controllers
 {
@@ -28,10 +29,51 @@ namespace Ackbar.Api.Controllers
         [HttpPut("load")]
         public IActionResult LoadGames([FromBody] GameListDataDto listDto)
         {
-            foreach (var game in _context.Games)
+            var games = _context.Games
+                .Include(g => g.Likes)
+                .Include(g => g.Views)
+                .Include(g => g.Ownerships)
+                .Include(g => g.Profile)
+                .ThenInclude(g => g.Agency)
+                .Include(g => g.Profile)
+                .ThenInclude(g => g.Appearance)
+                .Include(g => g.Profile)
+                .ThenInclude(g => g.Conflict)
+                .Include(g => g.Profile)
+                .ThenInclude(g => g.Investment)
+                .Include(g => g.Profile)
+                .ThenInclude(g => g.Rules);
+            
+            foreach (var game in games)
             {
+                foreach (var like in game.Likes)
+                {
+                    _context.Remove(like);
+                }
+
+                foreach (var ownership in game.Ownerships)
+                {
+                    _context.Remove(ownership);
+                }
+
+                foreach (var view in game.Views)
+                {
+                    _context.Remove(view);
+                }
+
+                if (game.Profile != null)
+                {
+                    var profile = game.Profile;
+                    _context.Remove(profile.Agency);
+                    _context.Remove(profile.Appearance);
+                    _context.Remove(profile.Conflict);
+                    _context.Remove(profile.Investment);
+                    _context.Remove(profile.Rules);
+                    _context.Remove(profile);
+                }
                 _context.Remove(game);
             }
+            
             foreach (var gameDto in listDto.Games)
             {
                 var newAgency = new Agency

@@ -16,11 +16,13 @@ namespace Ackbar.Api.Controllers
     {
         private readonly GameGuideContext _context;
         private readonly IJwtUtils _jwt;
+        private readonly IRegressionService _regressionService;
 
-        public PlayerController(GameGuideContext context, IJwtUtils jwt)
+        public PlayerController(GameGuideContext context, IJwtUtils jwt, IRegressionService regressionService)
         {
             _context = context;
             _jwt = jwt;
+            _regressionService = regressionService;
         }
         
         [AllowAnonymous]
@@ -146,6 +148,63 @@ namespace Ackbar.Api.Controllers
                 return Unauthorized();
             }
 
+            try
+            {
+                var player = _context
+                    .Players
+                    .Include(p => p.Likes)
+                    .ThenInclude(l => l.Game)
+                    .ThenInclude(g => g.Profile)
+                    .ThenInclude(p => p.Conflict)
+
+                    .Include(p => p.Likes)
+                    .ThenInclude(l => l.Game)
+                    .ThenInclude(g => g.Profile)
+                    .ThenInclude(p => p.Agency)
+
+                    .Include(p => p.Likes)
+                    .ThenInclude(l => l.Game)
+                    .ThenInclude(g => g.Profile)
+                    .ThenInclude(p => p.Appearance)
+
+                    .Include(p => p.Likes)
+                    .ThenInclude(l => l.Game)
+                    .ThenInclude(g => g.Profile)
+                    .ThenInclude(p => p.Investment)
+
+                    .Include(p => p.Likes)
+                    .ThenInclude(l => l.Game)
+                    .ThenInclude(g => g.Profile)
+                    .ThenInclude(p => p.Rules)
+
+                    .First(p => p.User.Id == userId);
+
+                var randomNotLikedGames = _context.Games
+                    .FromSql("SELECT TOP (31) * from Games " +
+                             " WHERE Id NOT IN (SELECT g.Id FROM Games g " +
+                             "INNER JOIN Likes l ON g.Id = l.GameId " +
+                             "INNER JOIN Players p ON l.PlayerId = p.Id " +
+                             "INNER JOIN Users u ON p.Id = u.PlayerId " +
+                             "WHERE u.Id = {0})", userId)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Agency)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Appearance)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Conflict)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Investment)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Rules)
+                    .ToList();
+
+                _regressionService.CalculateRegression(player, randomNotLikedGames);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             var recommendedGames = _context.Games
                 .FromSql("SELECT TOP (5) * from Games " +
                          " WHERE Id NOT IN (SELECT g.Id FROM Games g " +
@@ -162,6 +221,7 @@ namespace Ackbar.Api.Controllers
             }
 
             return Ok(recommendations);
+
         }
     }
 }
