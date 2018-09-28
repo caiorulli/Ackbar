@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Ackbar.Api.Dto;
 using Ackbar.Models;
@@ -34,20 +33,9 @@ namespace Ackbar.Api.Controllers
             {
                 return BadRequest();
             }
-            var user = new User
-            {
-                Email = request.Email,
-                Password = request.Password,
-                Player = new Player
-                {
-                    Likes = new Collection<Like>(),
-                    Views = new Collection<View>(),
-                    Ownerships = new Collection<Ownership>(),
-                    AvatarUrl = request.AvatarUrl,
-                    CollectionSize = request.CollectionSize,
-                    WeeklyPlayTime = request.WeeklyPlayTime
-                }
-            };
+
+            var user = Ackbar.Models.User.MakePlayer(request.Email, request.Password, request.AvatarUrl,
+                request.CollectionSize, request.WeeklyPlayTime);
             _context.Users.Add(user);
             _context.SaveChanges();
             var tokenString = _jwt.GenerateJwt(user.Id);
@@ -200,28 +188,41 @@ namespace Ackbar.Api.Controllers
 
                 _regressionService.CalculateRegression(player, randomNotLikedGames);
                 _context.SaveChanges();
+                
+                var notLikedGames = _context.Games
+                    .FromSql("SELECT * from Games " +
+                             " WHERE Id NOT IN (SELECT g.Id FROM Games g " +
+                             "INNER JOIN Likes l ON g.Id = l.GameId " +
+                             "INNER JOIN Players p ON l.PlayerId = p.Id " +
+                             "INNER JOIN Users u ON p.Id = u.PlayerId " +
+                             "WHERE u.Id = {0})", userId)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Agency)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Appearance)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Conflict)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Investment)
+                    .Include(g => g.Profile)
+                    .ThenInclude(g => g.Rules)
+                    .ToList();
+
+                var recommendedGames = _regressionService.OrderGameListByRegressionScore(player, notLikedGames).ToArray();
+                
+                var recommendations = new long[recommendedGames.Length];
+                for (var i = 0; i < recommendedGames.Length; i++)
+                {
+                    recommendations[i] = recommendedGames[i].Id;
+                }
+
+                return Ok(recommendations);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                return BadRequest(e);
             }
-            var recommendedGames = _context.Games
-                .FromSql("SELECT TOP (5) * from Games " +
-                         " WHERE Id NOT IN (SELECT g.Id FROM Games g " +
-                         "INNER JOIN Likes l ON g.Id = l.GameId " +
-                         "INNER JOIN Players p ON l.PlayerId = p.Id " +
-                         "INNER JOIN Users u ON p.Id = u.PlayerId " +
-                         "WHERE u.Id = {0})", userId)
-                .ToArray();
-
-            var recommendations = new long[recommendedGames.Length];
-            for (var i = 0; i < recommendedGames.Length; i++)
-            {
-                recommendations[i] = recommendedGames[i].Id;
-            }
-
-            return Ok(recommendations);
-
         }
     }
 }
