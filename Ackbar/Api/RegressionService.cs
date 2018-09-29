@@ -39,7 +39,8 @@ namespace Ackbar.Api
 
         public IEnumerable<Game> OrderGameListByRegressionScore(Player player, IEnumerable<Game> notYetLikedGames)
         {
-            return notYetLikedGames.OrderBy(game => game.CalculateScore(player));
+            return notYetLikedGames.OrderByDescending(game => game.CalculateScore(player))
+                .Take(5);
         }
     }
 }

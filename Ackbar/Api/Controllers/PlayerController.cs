@@ -208,7 +208,9 @@ namespace Ackbar.Api.Controllers
                     .ThenInclude(g => g.Rules)
                     .ToList();
 
-                var recommendedGames = _regressionService.OrderGameListByRegressionScore(player, notLikedGames).ToArray();
+                var recommendedGames = _regressionService
+                    .OrderGameListByRegressionScore(player, notLikedGames)
+                    .ToArray();
                 
                 var recommendations = new long[recommendedGames.Length];
                 for (var i = 0; i < recommendedGames.Length; i++)

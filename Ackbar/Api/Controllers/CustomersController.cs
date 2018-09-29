@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Security.Claims;
 using Ackbar.Api.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,22 +12,23 @@ namespace Ackbar.Api.Controllers
     public class CustomersController : Controller
     {
         private readonly GameGuideContext _context;
+        private readonly IJwtUtils _jwt;
 
-        public CustomersController(GameGuideContext context)
+        public CustomersController(GameGuideContext context, IJwtUtils jwt)
         {
             _context = context;
+            _jwt = jwt;
         }
 
         [HttpGet("GetReportUrl")]
         [ProducesResponseType(typeof(ReportUrlDto), 200)]
         public IActionResult GetReportUrl()
         {
-            var currentUser = HttpContext.User;
-            if (!currentUser.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
+            var userId = _jwt.GetUserIdFromContext(HttpContext.User);
+            if (userId == null)
             {
                 return Unauthorized();
             }
-            var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             
             var customer = _context.Customers
                 .Include(c => c.Reports)
