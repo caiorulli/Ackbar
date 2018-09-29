@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Ackbar.Api.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ackbar.Api.Controllers
 {
@@ -29,14 +30,16 @@ namespace Ackbar.Api.Controllers
             }
             var userId = long.Parse(currentUser.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             
-            var customer = _context.Customers.First(p => p.User.Id == userId);
-            if (customer.ReportUrl == null)
+            var customer = _context.Customers
+                .Include(c => c.Reports)
+                .First(p => p.User.Id == userId);
+            if (customer.Reports == null)
             {
                 return BadRequest();
             }
             return Ok(new ReportUrlDto
             {
-                ReportUrl = customer.ReportUrl
+                ReportUrls = customer.Reports.Select(r => r.ReportUrl).ToArray()
             });
         }
         

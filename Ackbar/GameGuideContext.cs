@@ -16,6 +16,5 @@ namespace Ackbar
         public DbSet<Like> Likes { get; set; }
         public DbSet<View> Views { get; set; }
         public DbSet<Ownership> Ownerships { get; set; }
-        public DbSet<Profile> Profiles { get; set; }
     }
 }

@@ -39,13 +39,13 @@ namespace Ackbar.Api.Controllers
         [ProducesResponseType(typeof(UserDto), 200)]
         public IActionResult Signup([FromBody] SignupRequest request)
         {
-            var user = UserSignup(request.Email, request.Password, request.ReportUrl);
+            var user = UserSignup(request.Email, request.Password, request.Reports, request.Name);
             if (user == null) return BadRequest();
             var tokenString = _jwt.GenerateJwt(user.Id);
             return Ok(new UserDto { Token = tokenString });
         }
 
-        private User UserSignup(string email, string password, string reportUrl)
+        private User UserSignup(string email, string password, string[] reports, string name)
         {
             if (_context.Users.Any(u => u.Email == email))
             {
@@ -60,11 +60,15 @@ namespace Ackbar.Api.Controllers
                     Likes = new Collection<Like>()
                 }
             };
-            if (reportUrl != null)
+            if (reports != null)
             {
                 user.Customer = new Customer
                 {
-                    ReportUrl = reportUrl,
+                    Name = name,
+                    Reports = reports.ToList().Select(url => new Report
+                    {
+                        ReportUrl = url
+                    }).ToList(),
                     User = user
                 };
             }

@@ -2,6 +2,6 @@ namespace Ackbar.Api.Dto
 {
     public class ReportUrlDto
     {
-        public string ReportUrl { get; set; }
+        public string[] ReportUrls { get; set; }
     }
 }
