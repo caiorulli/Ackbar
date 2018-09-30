@@ -1,5 +1,6 @@
+using System;
 using System.Linq;
-using Ackbar.Api.Dto;
+using Ackbar.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,9 @@ namespace Ackbar.Api.Controllers
             _jwt = jwt;
         }
 
-        [HttpGet("GetReportUrl")]
-        [ProducesResponseType(typeof(ReportUrlDto), 200)]
-        public IActionResult GetReportUrl()
+        [HttpGet("Info")]
+        [ProducesResponseType(typeof(Customer), 200)]
+        public IActionResult GetCustomerInfo()
         {
             var userId = _jwt.GetUserIdFromContext(HttpContext.User);
             if (userId == null)
@@ -30,17 +31,17 @@ namespace Ackbar.Api.Controllers
                 return Unauthorized();
             }
             
-            var customer = _context.Customers
+            try {
+                var customer = _context.Customers
                 .Include(c => c.Reports)
                 .First(p => p.User.Id == userId);
-            if (customer.Reports == null)
-            {
-                return BadRequest();
+                
+                return Ok(customer);
             }
-            return Ok(new ReportUrlDto
+            catch(Exception e)
             {
-                ReportUrls = customer.Reports.Select(r => r.ReportUrl).ToArray()
-            });
+                return BadRequest(e);
+            }
         }
         
     }
