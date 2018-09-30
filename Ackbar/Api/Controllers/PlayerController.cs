@@ -68,7 +68,7 @@ namespace Ackbar.Api.Controllers
             };
             _context.Views.Add(view);
             _context.SaveChanges();
-            return Ok();
+            return NoContent();
         }
         
         [HttpPost("LikeGame/{id}")]
@@ -96,7 +96,7 @@ namespace Ackbar.Api.Controllers
             };
             _context.Likes.Add(like);
             _context.SaveChanges();
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost("OwnGame/{id}")]
@@ -124,7 +124,7 @@ namespace Ackbar.Api.Controllers
             };
             _context.Ownerships.Add(ownership);
             _context.SaveChanges();
-            return Ok();
+            return NoContent();
         }
 
         [HttpGet("Info")]
@@ -139,14 +139,17 @@ namespace Ackbar.Api.Controllers
             
             var player = _context.Players
                 .Include(p => p.Likes)
+                .ThenInclude(p => p.Game)
                 .Include(p => p.Views)
+                .ThenInclude(p => p.Game)
                 .Include(p => p.Ownerships)
+                .ThenInclude(p => p.Game)
                 .First(p => p.User.Id == userId);
             return Ok(new PlayerInfoDto
             {
-                views = player.Views.Select(l => l.Id).ToArray(),
-                likes = player.Likes.Select(l => l.Id).ToArray(),
-                owns = player.Ownerships.Select(l => l.Id).ToArray()
+                views = player.Views.Select(l => l.Game.Id).ToArray(),
+                likes = player.Likes.Select(l => l.Game.Id).ToArray(),
+                owns = player.Ownerships.Select(l => l.Game.Id).ToArray()
             });
 
         }
