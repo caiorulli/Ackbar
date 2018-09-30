@@ -126,6 +126,30 @@ namespace Ackbar.Api.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpGet("Info")]
+        [ProducesResponseType(typeof(PlayerInfoDto), 200)]
+        public IActionResult GetInfo()
+        {
+            var userId = _jwt.GetUserIdFromContext(HttpContext.User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            
+            var player = _context.Players
+                .Include(p => p.Likes)
+                .Include(p => p.Views)
+                .Include(p => p.Ownerships)
+                .First(p => p.User.Id == userId);
+            return Ok(new PlayerInfoDto
+            {
+                views = player.Views.Select(l => l.Id).ToArray(),
+                likes = player.Likes.Select(l => l.Id).ToArray(),
+                owns = player.Ownerships.Select(l => l.Id).ToArray()
+            });
+
+        }
         
         [HttpGet("Recommendations")]
         public IActionResult Recommendations()
