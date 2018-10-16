@@ -1,0 +1,3 @@
+https://ackbar.azurewebsites.net/api/Player/Recommendation
+https://ackbar.azurewebsites.net/api/Player/Info
+https://ackbar.azurewebsites.net/api/Games
